@@ -1,6 +1,9 @@
 import json
 import tweepy
 from twitter import OAuth, Twitter
+from langdetect import detect
+from textblob import TextBlob
+
 
 
 class MyStreamListener(tweepy.StreamListener):
@@ -45,7 +48,13 @@ def trending_hashtags():
     return list(trends)
 
 
+def filter_only_english_trends(trends):
+    result = []
+    for item in trends:
+        if TextBlob(item).detect_language() == 'en':
+            result.append(item)
+    return result
 
 #stream = twitter_connect()
 #stream.filter(track=['clinton', 'trump', 'sanders', 'cruz'])
-print(trending_hashtags())
+print(filter_only_english_trends(trending_hashtags()))
