@@ -1,0 +1,41 @@
+import json
+import tweepy
+
+
+class MyStreamListener(tweepy.StreamListener):
+    def __init__(self, api=None):
+        super(MyStreamListener, self).__init__()
+        self.num_tweets = 0
+        self.file = open("tweets.txt", "w")
+
+    def on_status(self, status):
+        tweet = status._json
+        self.file.write(json.dumps(tweet) + '\n' )
+        self.num_tweets += 1
+        if self.num_tweets < 100:
+            return True
+        else:
+            return False
+        self.file.close()
+
+    def on_error(self, status):
+        print(status)
+
+
+def read_credentials():
+    with open("credentials.json", 'rb') as input:
+        data = json.load(input)
+        return data["access_token"], data["access_token_secret"],\
+            data["consumer_key"], data["consumer_secret"]
+
+
+def twitter_connect():
+    acc_token, acc_secret, cons_key, cons_secret = read_credentials()
+    auth = tweepy.OAuthHandler(cons_key, cons_secret)
+    auth.set_access_token(acc_token, acc_secret)
+    return tweepy.Stream(auth, MyStreamListener())
+
+
+
+stream = twitter_connect()
+#stream.filter(track=['clinton', 'trump', 'sanders', 'cruz'])
