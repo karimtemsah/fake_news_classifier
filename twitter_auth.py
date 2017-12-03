@@ -1,5 +1,6 @@
 import json
 import tweepy
+from twitter import OAuth, Twitter
 
 
 class MyStreamListener(tweepy.StreamListener):
@@ -36,6 +37,15 @@ def twitter_connect():
     return tweepy.Stream(auth, MyStreamListener())
 
 
+def trending_hashtags():
+    acc_token, acc_secret, cons_key, cons_secret = read_credentials()
+    twitter = Twitter(auth=OAuth(acc_token, acc_secret, cons_key, cons_secret))
+    result = twitter.trends.place(_id=1)[0]["trends"]
+    trends = map(lambda item: item["name"], result)
+    return list(trends)
 
-stream = twitter_connect()
+
+
+#stream = twitter_connect()
 #stream.filter(track=['clinton', 'trump', 'sanders', 'cruz'])
+print(trending_hashtags())
