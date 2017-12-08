@@ -1,9 +1,7 @@
 import json
 import tweepy
 from twitter import OAuth, Twitter
-from langdetect import detect
 from textblob import TextBlob
-
 
 
 class MyStreamListener(tweepy.StreamListener):
@@ -14,7 +12,7 @@ class MyStreamListener(tweepy.StreamListener):
 
     def on_status(self, status):
         tweet = status._json
-        self.file.write(json.dumps(tweet) + '\n' )
+        self.file.write(json.dumps(tweet) + '\n')
         self.num_tweets += 1
         if self.num_tweets < 100:
             return True
@@ -49,11 +47,7 @@ def trending_hashtags():
 
 
 def filter_only_english_trends(trends):
-    result = []
-    for item in trends:
-        if TextBlob(item).detect_language() == 'en':
-            result.append(item)
-    return result
+    return list(filter(lambda item: TextBlob(item).detect_language() == 'en', trends))
 
 #stream = twitter_connect()
 #stream.filter(track=['clinton', 'trump', 'sanders', 'cruz'])
