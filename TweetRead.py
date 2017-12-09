@@ -35,7 +35,7 @@ def sendData(c_socket):
     auth = OAuthHandler(consumer_key, consumer_secret)
     auth.set_access_token(access_token, access_secret)
     twitter_stream = Stream(auth, TweetsListener(c_socket))
-    twitter_stream.filter(track=['trump'])
+    twitter_stream.filter(track=['news'])
 
 
 if __name__ == "__main__":
@@ -51,5 +51,5 @@ if __name__ == "__main__":
     print(c)
     print("Received request from: " + str(addr))
 
-    sendData( c )
+    sendData(c)
 
