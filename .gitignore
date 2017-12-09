@@ -1,3 +1,6 @@
 credentials.json
 .idea
 naiiveBayes.pkl
+tweets
+tweets.txt
+.ipynb_checkpoints
