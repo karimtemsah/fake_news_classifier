@@ -14,7 +14,8 @@ class TweetsListener(StreamListener):
       try:
           msg = json.loads( data )
           #print( msg['text'].encode('utf-8') )
-          self.client_socket.send(msg['text'].encode('utf-8') )
+          self.client_socket.send( msg['text'].encode('utf-8') )
+          print("success")
           return True
       except BaseException as e:
           print("Error on_data: %s" % str(e))
@@ -53,4 +54,3 @@ if __name__ == "__main__":
   print( "Received request from: " + str( addr ) )
 
   sendData( c )
-
