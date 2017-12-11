@@ -12,8 +12,11 @@ class TweetsListener(StreamListener):
 
     def on_data(self, data):
         try:
-            print(data.split('\n'))
-            self.client_socket.send(data.encode())
+            msg = json.loads( data )
+            tweet = msg['text'].encode('utf-8')
+            print(tweet)
+            #print(data.split('\n')['text'])
+            self.client_socket.send(tweet)
             return True
         except BaseException as e:
             print("Error on_data: %s" % str(e))
